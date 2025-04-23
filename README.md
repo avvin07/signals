@@ -110,7 +110,7 @@ python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o out/eth_btc_signals.p
 
 ## Скриншоты
 
-![Пример графика ETH]([docs/eth_example.png](https://github.com/avvin07/signals/blob/main/trading_signals.png))
+![Пример графика ETH]([/main/trading_signals.png])
 *График цен ETH-USDT с торговыми сигналами и статистикой*
 
 
