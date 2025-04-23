@@ -20,7 +20,7 @@
 - Автоматический выбор нужных столбцов для каждого символа
 - Расчёт нереализованного P/L для открытой позиции
 - Подсветка фона для периодов long (зелёный) и short (красный)
-- Параметры запуска через CLI с дефолтными настройками в `config.py`
+- Параметры запуска через CLI с дефолтными настройками, хранящимися в `config.py`
 
 ## Установка и требования
 
@@ -36,17 +36,10 @@
    source venv/bin/activate        # Linux/Mac
    venv\Scripts\activate         # Windows PowerShell
    pip install --upgrade pip
-   pip install pandas numpy matplotlib seaborn
+   pip install -r requirements.txt
    ```
 
-3. (Опционально) Создать файл `config.py` рядом со скриптом и задать параметры по умолчанию:
-   ```python
-   # config.py
-   DEFAULT_DATA_PATH = 'ETH-USDT-SWAP_5M.txt'
-   FIGURE_SIZE = (20, 16)
-   DPI = 300
-   OUTPUT_FILE = 'trading_signals.png'
-   ```
+- Файл `config.py` уже включён в репозиторий — при необходимости отредактируйте его для изменения пути к данным, параметров графиков и других настроек.
 
 ## Использование скрипта
 
@@ -110,8 +103,8 @@ python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o out/eth_btc_signals.p
 
 ## Скриншоты
 
-![Пример графика ETH]([/main/trading_signals.png])
-*График цен ETH-USDT с торговыми сигналами и статистикой*
+![Пример графика BTC+ETH](screenshots/2025-04-23_17-44-35.png)
+*График цен BTC+ETH с торговыми сигналами и статистикой*
 
 
 ## Структура репозитория
