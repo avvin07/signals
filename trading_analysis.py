@@ -4,6 +4,8 @@ import seaborn as sns
 from datetime import datetime
 import numpy as np
 import argparse
+import os
+import sys
 
 # Настройка стиля графиков
 plt.style.use('default')  # Используем стандартный стиль matplotlib
@@ -448,20 +450,39 @@ def plot_trading_signals(df, ax, symbol='ETH'):
 
 def main():
     try:
-        import sys
-        import os
-        from config import DEFAULT_DATA_PATH, FIGURE_SIZE, DPI, OUTPUT_FILE
+        from config import DEFAULT_DATA_PATH, OUTPUT_DIR, FIGURE_SIZE, DPI, OUTPUT_FILE
         
         # Настройка парсера аргументов командной строки
         parser = argparse.ArgumentParser(description='Анализ торговых сигналов')
         parser.add_argument('--file', '-f', type=str, default=DEFAULT_DATA_PATH,
                           help='Путь к файлу с данными (по умолчанию: %(default)s)')
-        parser.add_argument('--output', '-o', type=str, default=OUTPUT_FILE,
-                          help='Путь для сохранения графика (по умолчанию: %(default)s)')
+        
+        # Опция для указания каталога или имени файла для сохранения графика
+        parser.add_argument('--output', '-o', type=str, default=OUTPUT_DIR,
+                          help='Каталог или путь к файлу для сохранения графика')
         parser.add_argument('--dpi', type=int, default=DPI,
                           help='DPI для сохранения графика (по умолчанию: %(default)s)')
         
         args = parser.parse_args()
+        
+        # Определяем финальный путь для сохранения
+        # Если указана директория или просто каталог без расширения
+        if os.path.isdir(args.output) or args.output.endswith(os.sep) or not os.path.splitext(args.output)[1]:
+            out_dir = args.output.rstrip('/\\')
+            os.makedirs(out_dir, exist_ok=True)
+            # Формируем имя с датой и временем
+            timestamp = datetime.now().strftime("%d%m%Y-%H-%M")
+            base, ext = os.path.splitext(OUTPUT_FILE)
+            base = base or 'trading_signals'
+            ext = ext or '.png'
+            final_output = os.path.join(out_dir, f"{base}_{timestamp}{ext}")
+        else:
+            # Если указан файл с именем
+            final_output = args.output
+            out_dir = os.path.dirname(final_output)
+            if out_dir and not os.path.exists(out_dir):
+                os.makedirs(out_dir, exist_ok=True)
+        print(f"Сохранение результирующего файла: {final_output}")
         
         # Настройка вывода для Windows
         if sys.platform == 'win32':
@@ -501,9 +522,9 @@ def main():
         plt.tight_layout()
         
         # Сохранение графика
-        print(f"Сохранение графика в файл {args.output}...")
-        plt.savefig(args.output, dpi=args.dpi, bbox_inches='tight')
-        print(f"\nГрафик успешно сохранен как '{args.output}'")
+        print(f"Сохранение графика в файл {final_output}...")
+        plt.savefig(final_output, dpi=args.dpi, bbox_inches='tight')
+        print(f"\nГрафик успешно сохранен как '{final_output}'")
         print('='*50)
         
     except Exception as e:

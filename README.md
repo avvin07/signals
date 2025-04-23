@@ -43,23 +43,27 @@
 
 ## Использование скрипта
 
-Запуск без аргументов (используются значения из `config.py`):
-```bash
-python trading_analysis.py
-```
+- Запуск без аргументов (используются значения из `config.py`). По умолчанию график сохраняется в папку `OUTPUT_DIR` с именем вида `BASE_ДДММГГГГ-ЧЧ-ММ.png`, где `BASE` — базовое имя `OUTPUT_FILE` из конфига:
+  ```bash
+  python trading_analysis.py
+  ```
 
-Запуск с указанием пути к файлу данных и параметров вывода:
-```bash
-python trading_analysis.py \
-  --file "путь/к/данным.txt" \
-  --output "результат.png" \
-  --dpi 300
-```
+- Запуск с указанием пути к файлу данных и каталога или имени файла для сохранения:
+  ```bash
+  # Сохранить по умолчанию в указанной папке с меткой времени
+  python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o output/
+  
+  # Указать конкретное имя файла (без автоматической метки)
+  python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o output/my_plot.png
+  
+  # Настроить разрешение
+  python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o output/ --dpi 400
+  ```
 
 ### Доступные опции
 
 - `-f, --file`: путь к файлу с данными (по умолчанию задаётся в `config.py`)
-- `-o, --output`: путь для сохранения итогового графика (по умолчанию задаётся в `config.py`)
+- `-o, --output`: путь к директории или полное имя файла для сохранения графика; при указании директории будет создан файл с меткой времени (`BASE_ДДММГГГГ-ЧЧ-ММ.ext`)
 - `--dpi`: разрешение выходного изображения в DPI (по умолчанию задаётся в `config.py`)
 
 ## Формат входных данных
@@ -98,7 +102,17 @@ python trading_analysis.py \
 ## Пример использования
 
 ```bash
-python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o out/eth_btc_signals.png --dpi 400
+# По умолчанию (сохранение в OUTPUT_DIR с меткой времени)
+python trading_analysis.py
+
+# Сохранить в свою папку с автоматической меткой времени
+python trading_analysis.py -o results/
+
+# Задать конкретное имя файла без метки
+python trading_analysis.py -o results/custom_name.png
+
+# Комбинировать все опции:
+python trading_analysis.py -f data/custom.txt -o results/ -–dpi 500
 ```
 
 ## Скриншоты
