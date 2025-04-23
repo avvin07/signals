@@ -110,7 +110,7 @@ python trading_analysis.py -f data/ETH-USDT-SWAP_5M.txt -o out/eth_btc_signals.p
 
 ## Скриншоты
 
-![Пример графика BTC+ETH]([screenshots/2025-04-23_17-44-35.png])
+![Пример графика BTC+ETH](screenshots/2025-04-23_17-44-35.png)
 *График цен BTC+ETH с торговыми сигналами и статистикой*
 
 
